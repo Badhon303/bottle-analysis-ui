@@ -3,19 +3,21 @@ import vue from "@vitejs/plugin-vue"
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "")
-  // const apiBaseUrl = env.BOTTLE_VISION_BASE_URL || "http://localhost:8000"
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || ""
+
+  // ✅ Use env instead of import.meta.env
+  const apiBaseUrl = env.VITE_API_BASE_URL || ""
+  console.log("API Base URL:", apiBaseUrl)
 
   return {
     plugins: [vue()],
-    // --- ADD THIS SECTION ---
+
     preview: {
       allowedHosts: ["analysis-ui.codemonks.dev"],
     },
-    // If you encounter this during dev/start, add this too:
+
     server: {
       allowedHosts: ["analysis-ui.codemonks.dev"],
-      // --- END OF NEW SECTION ---
+
       proxy: {
         "/api": {
           target: apiBaseUrl,
