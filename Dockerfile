@@ -10,4 +10,4 @@ COPY . .
 RUN npm run build
 
 EXPOSE 8065
-CMD ["npm", "run", "vite", "--host", "0.0.0.0", "--port", "8065"]
+CMD ["npm", "run", "start"]
