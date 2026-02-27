@@ -3,7 +3,8 @@ import vue from "@vitejs/plugin-vue"
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "")
-  const apiBaseUrl = env.BOTTLE_VISION_BASE_URL || "http://localhost:8000"
+  // const apiBaseUrl = env.BOTTLE_VISION_BASE_URL || "http://localhost:8000"
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || ""
 
   return {
     plugins: [vue()],
