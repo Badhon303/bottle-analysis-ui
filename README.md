@@ -23,7 +23,7 @@ Create a `.env` file in the root directory based on the example:
 cp .env.example .env
 ```
 
-Update the `BOTTLE_VISION_BASE_URL` in the `.env` file if your backend is running on a different port or host.
+Update the `VITE_API_BASE_URL` in the `.env` file if your backend is running on a different port or host.
 
 ### 3. Running Development Server
 
