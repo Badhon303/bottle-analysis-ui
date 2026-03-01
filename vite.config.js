@@ -5,8 +5,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "")
 
   // ✅ Use env instead of import.meta.env
-  const apiBaseUrl =
-    env.VITE_API_BASE_URL || "https://analysis-api.codemonks.dev"
+  const apiBaseUrl = "https://analysis-api.codemonks.dev"
 
   return {
     plugins: [vue()],
