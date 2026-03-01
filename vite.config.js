@@ -5,8 +5,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "")
 
   // ✅ Use env instead of import.meta.env
-  const apiBaseUrl = env.VITE_API_BASE_URL || ""
-  console.log("API Base URL:", apiBaseUrl)
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || ""
 
   return {
     plugins: [vue()],
