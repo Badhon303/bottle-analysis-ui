@@ -3,7 +3,10 @@ import vue from "@vitejs/plugin-vue"
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "")
-  const apiBaseUrl = "https://analysis-api.codemonks.dev"
+
+  // ✅ Use env instead of import.meta.env
+  const apiBaseUrl = env.VITE_API_BASE_URL || ""
+  console.log("API Base URL:", apiBaseUrl)
 
   return {
     plugins: [vue()],

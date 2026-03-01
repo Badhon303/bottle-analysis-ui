@@ -6,9 +6,8 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+
 RUN npm run build
 
-RUN npm install -g serve
-
 EXPOSE 8065
-CMD ["serve", "-s", "dist", "-l", "8065"]
+CMD ["npm", "run", "start"]
