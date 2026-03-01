@@ -7,16 +7,16 @@ export default defineConfig(({ mode }) => {
   // ✅ Use env instead of import.meta.env
   const apiBaseUrl =
     env.VITE_API_BASE_URL || "https://analysis-api.codemonks.dev"
-  dd
+
   return {
     plugins: [vue()],
 
     preview: {
-      allowedHosts: ["analysis-ui.codemonks.dev", "analysis-api.codemonks.dev"],
+      allowedHosts: ["analysis-ui.codemonks.dev"],
     },
 
     server: {
-      allowedHosts: ["analysis-ui.codemonks.dev", "analysis-api.codemonks.dev"],
+      allowedHosts: ["analysis-ui.codemonks.dev"],
 
       proxy: {
         "/api": {
