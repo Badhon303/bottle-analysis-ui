@@ -15,6 +15,27 @@ FROM nginx:stable-alpine AS production-stage
 
 RUN echo 'server { \
     listen 8065; \
+    location /api { \
+        proxy_pass https://analysis-api.codemonks.dev; \
+        proxy_set_header Host analysis-api.codemonks.dev; \
+        proxy_set_header X-Real-IP $remote_addr; \
+        proxy_ssl_server_name on; \
+    } \
+    location /uploads { \
+        proxy_pass https://analysis-api.codemonks.dev; \
+        proxy_set_header Host analysis-api.codemonks.dev; \
+        proxy_ssl_server_name on; \
+    } \
+    location /outputs { \
+        proxy_pass https://analysis-api.codemonks.dev; \
+        proxy_set_header Host analysis-api.codemonks.dev; \
+        proxy_ssl_server_name on; \
+    } \
+    location /crops { \
+        proxy_pass https://analysis-api.codemonks.dev; \
+        proxy_set_header Host analysis-api.codemonks.dev; \
+        proxy_ssl_server_name on; \
+    } \
     location / { \
         root /usr/share/nginx/html; \
         index index.html; \
