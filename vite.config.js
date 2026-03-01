@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
 
   // ✅ Use env instead of import.meta.env
   const apiBaseUrl =
-    env.VITE_API_BASE_URL || "https://analysis-api.codemonks.dev"
+    import.meta.env.VITE_API_BASE_URL || "https://analysis-api.codemonks.dev"
 
   return {
     plugins: [vue()],
