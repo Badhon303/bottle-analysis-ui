@@ -9,11 +9,19 @@ RUN npm run build
 # Stage 2: Serve with Nginx
 FROM nginx:stable-alpine AS production-stage
 
-# Update Nginx config to listen on 8065 instead of 80
-RUN sed -i 's/listen  80;/listen 8065;/g' /etc/nginx/conf.d/default.conf
+# Create a custom Nginx config for port 8065 and Vue Router support
+RUN echo 'server { \
+    listen 8065; \
+    location / { \
+        root /usr/share/nginx/html; \
+        index index.html; \
+        try_files $uri $uri/ /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
 
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
+# Inform Docker we are using 8065
 EXPOSE 8065
 
 CMD ["nginx", "-g", "daemon off;"]
