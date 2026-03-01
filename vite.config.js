@@ -3,9 +3,7 @@ import vue from "@vitejs/plugin-vue"
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "")
-
-  // ✅ Use env instead of import.meta.env
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || ""
+  const apiBaseUrl = env.VITE_API_BASE_URL || ""
 
   return {
     plugins: [vue()],
