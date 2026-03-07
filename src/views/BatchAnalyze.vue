@@ -131,22 +131,6 @@
                             <span class="text-gray-600 dark:text-gray-400">Total Images</span>
                             <span class="font-bold text-gray-900 dark:text-white">{{ results.total_images }}</span>
                         </div>
-                        <div class="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
-                            <span class="text-gray-600 dark:text-gray-400">Total Bottles</span>
-                            <span class="font-bold text-blue-600 dark:text-blue-400 text-xl">{{ results.total_bottles
-                                }}</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
-                            <span class="text-gray-600 dark:text-gray-400">Matched</span>
-                            <span class="font-bold text-green-600 dark:text-green-400 text-xl">{{
-                                results.matched_bottles }}</span>
-                        </div>
-                        <div
-                            class="flex justify-between items-center p-3 bg-orange-50 dark:bg-orange-900/30 rounded-lg">
-                            <span class="text-gray-600 dark:text-gray-400">Unmatched</span>
-                            <span class="font-bold text-orange-600 dark:text-orange-400 text-xl">{{
-                                results.unmatched_bottles }}</span>
-                        </div>
                         <div v-if="results.clusters && results.clusters.length"
                             class="flex justify-between items-center p-3 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
                             <span class="text-gray-600 dark:text-gray-400">Clusters Found</span>
@@ -173,6 +157,23 @@
                                 </p>
                             </div>
                         </div>
+
+                        <!-- Label Summary -->
+                        <div v-if="labelSummary.length > 0" class="mt-4 border-t pt-4 dark:border-gray-700">
+                            <h4 class="text-sm font-bold mb-3 text-gray-700 dark:text-gray-300">Label Summary</h4>
+                            <div class="space-y-2">
+                                <div v-for="summary in labelSummary" :key="summary.name"
+                                    class="flex justify-between items-center p-2 text-sm bg-gray-50 dark:bg-gray-700 rounded border border-gray-100 dark:border-gray-600">
+                                    <span class="font-medium text-gray-800 dark:text-gray-200">{{ summary.name }}</span>
+                                    <div class="flex gap-4 text-right">
+                                        <span class="text-blue-600 dark:text-blue-400 font-bold">{{ summary.count }}
+                                            {{summary.count === 1 ? 'bottle' : 'bottles'}}</span>
+                                        <span class="text-cyan-600 dark:text-cyan-400 min-w-[60px]">{{
+                                            formatWeight(summary.weightGrams) }}</span> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -188,7 +189,7 @@
                             <div>
                                 <p class="text-sm font-bold text-gray-900 dark:text-white">
                                     Selected: <span class="text-blue-600 dark:text-blue-400">{{ selectedBottles.length
-                                        }}</span> bottles
+                                    }}</span> bottles
                                 </p>
                             </div>
                             <div class="flex gap-2">
@@ -208,52 +209,7 @@
                         </div>
                     </div>
 
-                    <!-- Per Image Results -->
-                    <div
-                        class="mb-6 p-6 bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700">
-                        <h3 class="text-xl font-bold mb-4 dark:text-white flex items-center gap-2">
-                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                </path>
-                            </svg>
-                            Per Image Results ({{ results.per_image_results?.length || 0 }} images)
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div v-for="imageResult in results.per_image_results" :key="imageResult.image_id"
-                                class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
-                                <div class="flex items-center gap-3">
-                                    <img v-if="imageResult.visualization_path" :src="imageResult.visualization_path"
-                                        class="w-16 h-12 object-cover rounded shadow cursor-pointer hover:opacity-80 transition-opacity"
-                                        @click="openPreview(imageResult.visualization_path, imageResult.original_filename, null)">
-                                    <div class="flex-grow min-w-0">
-                                        <p class="font-medium text-sm text-gray-900 dark:text-white truncate"
-                                            :title="imageResult.original_filename">
-                                            {{ imageResult.original_filename }}
-                                        </p>
-                                        <div class="flex gap-2 mt-1 text-xs">
-                                            <span class="text-blue-600 dark:text-blue-400">{{ imageResult.total_bottles
-                                                }} total</span>
-                                            <span class="text-green-600 dark:text-green-400">{{
-                                                imageResult.matched_bottles }} matched</span>
-                                            <span class="text-orange-600 dark:text-orange-400">{{
-                                                imageResult.unmatched_bottles }} unmatched</span>
-                                        </div>
-                                        <!-- Per-image weight -->
-                                        <div v-if="imageResult.estimated_weight_grams"
-                                            class="mt-1 flex items-center gap-1 text-xs text-cyan-600 dark:text-cyan-400">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3">
-                                                </path>
-                                            </svg>
-                                            <span>{{ formatWeight(imageResult.estimated_weight_grams) }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
 
                     <!-- Matched/Pending Bottles Section -->
                     <div v-if="matchedBottles.length > 0" class="mb-6">
@@ -299,27 +255,12 @@
                                 <p class="text-sm font-bold dark:text-white truncate">
                                     {{ bottle.label_name || 'No Match' }}
                                 </p>
-                                <p class="text-xs text-gray-500">
-                                    ID: {{ bottle.id }}
-                                </p>
-                                <p class="text-xs text-gray-500">
-                                    Conf: {{ (bottle.confidence * 100).toFixed(0) }}%
-                                </p>
-                                <p class="text-xs text-gray-500">
-                                    Match: {{ (bottle.match_confidence * 100).toFixed(0) }}%
-                                </p>
                                 <!-- Bottle weight -->
                                 <p v-if="bottle.label_weight_grams"
                                     class="text-xs text-cyan-600 dark:text-cyan-400 font-medium">
                                     {{ bottle.label_weight_grams }}g
                                 </p>
-                                <!-- Status badge -->
-                                <span class="inline-block mt-1 px-2 py-0.5 text-xs rounded-full" :class="{
-                                    'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300': bottle.status === 'auto_labeled',
-                                    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300': bottle.status === 'pending'
-                                }">
-                                    {{ bottle.status === 'auto_labeled' ? 'Auto' : 'Pending' }}
-                                </span>
+
                             </div>
                         </div>
                     </div>
@@ -396,16 +337,6 @@
                                     </div>
                                     <p class="text-sm font-bold dark:text-white truncate">
                                         {{ getBottleById(bottleId)?.label_name || 'No Match' }}
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                        ID: {{ bottleId }}
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                        Conf: {{ ((getBottleById(bottleId)?.confidence || 0) * 100).toFixed(0) }}%
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                        Match: {{ ((getBottleById(bottleId)?.match_confidence || 0) * 100).toFixed(0)
-                                        }}%
                                     </p>
                                     <!-- Bottle weight if available -->
                                     <p v-if="getBottleById(bottleId)?.label_weight_grams"
@@ -624,6 +555,28 @@ const totalEstimatedWeight = computed(() => {
         grams: totalGrams,
         kg: totalGrams / 1000
     };
+});
+
+// Calculate label summary
+const labelSummary = computed(() => {
+    if (!matchedBottles.value.length) return [];
+
+    const summaryMap = {};
+
+    matchedBottles.value.forEach(bottle => {
+        const labelName = bottle.label_name || 'Unknown';
+        if (!summaryMap[labelName]) {
+            summaryMap[labelName] = {
+                name: labelName,
+                count: 0,
+                weightGrams: 0
+            };
+        }
+        summaryMap[labelName].count += 1;
+        summaryMap[labelName].weightGrams += (bottle.label_weight_grams || 0);
+    });
+
+    return Object.values(summaryMap).sort((a, b) => b.count - a.count);
 });
 
 // File handling functions

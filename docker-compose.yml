@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: .
+    container_name: analysis-tool-frontend
+    ports:
+      - "8065:8065"
+    environment:
+      - BOTTLE_VISION_BASE_URL=https://analysis-api.codemonks.dev
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge

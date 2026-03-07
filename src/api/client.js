@@ -1,25 +1,25 @@
-import axios from "axios"
+import axios from 'axios';
 
 // In development, use relative URL (Vite proxy forwards to backend)
 // In production, use the full API base URL from environment variable
-const baseURL = import.meta.env.PROD
-  ? `${import.meta.env.VITE_API_BASE_URL || "https://analysis-api.codemonks.dev"}/api`
-  : "/api"
+const baseURL = import.meta.env.PROD 
+  ? `${import.meta.env.BOTTLE_VISION_BASE_URL}/api` 
+  : '/api';
 
 const apiClient = axios.create({
   baseURL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
-})
+});
 
 // Response interceptor for error handling
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("API Error:", error.response || error.message)
-    return Promise.reject(error)
-  },
-)
+    console.error('API Error:', error.response || error.message);
+    return Promise.reject(error);
+  }
+);
 
-export default apiClient
+export default apiClient;
