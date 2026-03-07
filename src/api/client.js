@@ -6,6 +6,26 @@ const baseURL = import.meta.env.PROD
   ? `${import.meta.env.VITE_BOTTLE_VISION_BASE_URL}/api`
   : "/api"
 
+// Helper to get full URL for assets (images, etc.)
+export const getAssetUrl = (path) => {
+  if (!path) return ""
+  if (
+    path.startsWith("http") ||
+    path.startsWith("blob:") ||
+    path.startsWith("data:")
+  ) {
+    return path
+  }
+
+  const base = import.meta.env.PROD
+    ? import.meta.env.VITE_BOTTLE_VISION_BASE_URL
+    : ""
+
+  // Ensure path starts with /
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`
+  return `${base}${normalizedPath}`
+}
+
 const apiClient = axios.create({
   baseURL,
   headers: {
