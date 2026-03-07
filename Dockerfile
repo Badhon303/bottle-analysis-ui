@@ -12,6 +12,9 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+# Set production API base URL
+ENV BOTTLE_VISION_BASE_URL=https://analysis-api.codemonks.dev
+
 # Build the application
 RUN npm run build
 
