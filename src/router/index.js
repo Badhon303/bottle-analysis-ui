@@ -6,6 +6,7 @@ import Labels from '../views/Labels.vue';
 
 import Analyze from '../views/Analyze.vue';
 import BatchAnalyze from '../views/BatchAnalyze.vue';
+import BottleAnalysis from '../views/BottleAnalysis.vue';
 
 const routes = [
     {
@@ -17,6 +18,11 @@ const routes = [
         path: '/batch-analyze',
         name: 'BatchAnalyze',
         component: BatchAnalyze,
+    },
+    {
+        path: '/bottle-analysis',
+        name: 'BottleAnalysis',
+        component: BottleAnalysis,
     },
     // {
     //     path: '/batches',
