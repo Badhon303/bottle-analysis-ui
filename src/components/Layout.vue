@@ -45,7 +45,7 @@
           </li>
           <li>
             <router-link to="/bottle-analysis"
-              class="flex items-center p-2 pl-10 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
               <svg
                 class="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
